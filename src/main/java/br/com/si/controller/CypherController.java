@@ -8,27 +8,25 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.si.cypher.Decripta;
 import br.com.si.cypher.Encripta;
 import br.com.si.interfaceCypher.ICypher;
+import br.com.si.util.CypherText;
 
 @RestController
-@RequestMapping("/cypher")
 public class CypherController {
-
 	
-	
-	@GetMapping("/encriptar/{entrada}/{algoritimo}")
-	public String encriptarDados(@PathVariable String entrada,@PathVariable String algoritimo ) {
+	@RequestMapping(value = "/encriptar", method = RequestMethod.POST, produces = "text/text;charset=iso-8859-1" )
+	public String encriptarDados(@RequestBody CypherText cypherText ) {
 		ICypher dadosServiceEn = new Encripta();
 		String retorno= "";
 		try {
-			retorno = dadosServiceEn.encriptaDecripta(entrada, algoritimo);
+			retorno = dadosServiceEn.encriptaDecripta(cypherText.getEntrada(), cypherText.getAlgoritimo());
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
 				| NoSuchPaddingException e) {
 			// TODO Auto-generated catch block
@@ -37,15 +35,15 @@ public class CypherController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new String(retorno);
+		return retorno;
 	}
 	
-	@GetMapping("/decriptar/{entrada}/{algoritimo}")
-	public String decriptarDados(@PathVariable String entrada, @PathVariable String algoritimo ) {
+	@RequestMapping(value = "/decriptar", method = RequestMethod.POST, produces = "text/text;charset=iso-8859-1")
+	public String decriptarDados(@RequestBody CypherText cypherText ) {
 		ICypher dadosServiceDe = new Decripta();
 		String retorno= "";
 		try {
-			retorno =  dadosServiceDe.encriptaDecripta(entrada, algoritimo);
+			retorno =  dadosServiceDe.encriptaDecripta(cypherText.getEntrada(), cypherText.getAlgoritimo());
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
 				| NoSuchPaddingException e) {
 			// TODO Auto-generated catch block
@@ -54,7 +52,7 @@ public class CypherController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new String(retorno);
+		return retorno;
 	}
 	
 	

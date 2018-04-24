@@ -1,5 +1,6 @@
 package br.com.si.util;
 
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class UtilCypher {
 
 	private static Scanner scanner;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnsupportedEncodingException {
 		scanner = new Scanner(System.in);
 		System.out.println("Digite o texta para encriptar");
 		String entrada = scanner.nextLine();
@@ -28,12 +29,12 @@ public class UtilCypher {
 			Cipher cipher;
 			cipher = Cipher.getInstance("BLOWFISH");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			byte[] senhaCriptografada = cipher.doFinal(entrada.getBytes());
-			System.out.println("Saída de texto encriptado: "+senhaCriptografada );
+			byte[] senhaCriptografada = cipher.doFinal(entrada.getBytes("iso-8859-1"));
+			System.out.println("Saída de texto encriptado: "+new String(senhaCriptografada,"iso-8859-1") );
 			
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			byte[] senhaDecriptografada = cipher.doFinal(senhaCriptografada);
-			System.out.println("Saída de texto claro: "+new String(senhaDecriptografada));
+			System.out.println("Saída de texto claro: "+new String(senhaDecriptografada,"iso-8859-1"));
 			
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block

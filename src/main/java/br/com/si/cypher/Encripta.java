@@ -26,9 +26,9 @@ public class Encripta implements ICypher{
 		Cipher cipher;
 		cipher = Cipher.getInstance(algoritimo);
 		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-		byte[] senhaCriptografada = cipher.doFinal(entrada.getBytes());
-		System.out.println("Saída de texto encriptado: "+new String(senhaCriptografada,"UTF-8"));
-		return new String(senhaCriptografada,"UTF-8");
+		byte[] senhaCriptografada = cipher.doFinal(entrada.getBytes("iso-8859-1"));
+		System.out.println("Saída de texto encriptado: "+new String(senhaCriptografada,"iso-8859-1"));
+		return new String(senhaCriptografada);
 	}
 
 }

@@ -24,15 +24,15 @@ public class Decripta implements ICypher{
 		//Algorítimos de critografia simetricos
 				//AES, RC2, RC5, IDEA, BLOWFISH
 		
-		byte[] senhaCriptografada = entrada.getBytes();
+		byte[] senhaCriptografada = entrada.getBytes("iso-8859-1");
 		KeyGenerator keyGenerator = KeyGenerator.getInstance(algoritimo);
 		SecretKey secretKey = keyGenerator.generateKey();
 		Cipher cipher;
 		cipher = Cipher.getInstance(algoritimo);
 		cipher.init(Cipher.DECRYPT_MODE, secretKey);
 		byte[] senhaDecriptografada = cipher.doFinal(senhaCriptografada);
-		System.out.println("Saída de texto claro: "+new String(senhaDecriptografada, "UTF-8"));
-		return new String(senhaDecriptografada, "UTF-8");
+		System.out.println("Saída de texto claro: "+new String(senhaDecriptografada,"iso-8859-1"));
+		return new String(senhaDecriptografada);
 	}
 
 }
